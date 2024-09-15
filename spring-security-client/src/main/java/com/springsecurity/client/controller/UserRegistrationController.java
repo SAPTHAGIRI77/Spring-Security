@@ -3,12 +3,16 @@ package com.springsecurity.client.controller;
 import com.springsecurity.client.entity.User;
 import com.springsecurity.client.entity.VerificationToken;
 import com.springsecurity.client.events.RegistrationCompleteEvent;
+import com.springsecurity.client.model.UpdatePasswordModel;
 import com.springsecurity.client.model.UserModel;
 import com.springsecurity.client.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,6 +55,9 @@ public class UserRegistrationController {
 
     }
 
+
+
+
     @GetMapping("/resendVerifyToken")
     public String resendVerifyToken(@RequestParam("token") String oldToken,
                                     HttpServletRequest request) {
@@ -79,5 +86,13 @@ public class UserRegistrationController {
                 request.getContextPath();
 
 
+    }
+
+
+    //For Updating the password
+    @PutMapping("/update")
+    public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordModel updatePasswordModel){
+        log.info(updatePasswordModel.getOldPassword());
+        return new ResponseEntity(userService.updatePassword(updatePasswordModel), HttpStatus.OK);
     }
 }

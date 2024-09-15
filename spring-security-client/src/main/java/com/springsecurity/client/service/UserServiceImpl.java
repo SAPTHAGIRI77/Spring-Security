@@ -2,6 +2,7 @@ package com.springsecurity.client.service;
 
 import com.springsecurity.client.entity.User;
 import com.springsecurity.client.entity.VerificationToken;
+import com.springsecurity.client.model.UpdatePasswordModel;
 import com.springsecurity.client.model.UserModel;
 import com.springsecurity.client.repository.UserRepository;
 import com.springsecurity.client.repository.VerificationTokenRepository;
@@ -73,4 +74,23 @@ public class UserServiceImpl implements UserService {
         return verifyToken;
 
     }
+
+
+    public String updatePassword(UpdatePasswordModel updatePasswordModel) {
+        User user = userRepository.findByEmail(updatePasswordModel.getEmail());
+
+        if (user != null) {
+
+            if (passwordEncoder.matches(updatePasswordModel.getOldPassword(), user.getPassword())
+                    && user.getEmail().equalsIgnoreCase(updatePasswordModel.getEmail())) {
+
+                user.setPassword(passwordEncoder.encode(updatePasswordModel.getNewPassword()));
+                userRepository.save(user);
+                return "Password Updated successfully";
+            }
+        }
+
+        return "Enter a Valid Email or Password";
+    }
+
 }

@@ -2,6 +2,7 @@ package com.springsecurity.client.service;
 
 import com.springsecurity.client.entity.User;
 import com.springsecurity.client.entity.VerificationToken;
+import com.springsecurity.client.model.UpdatePasswordModel;
 import com.springsecurity.client.model.UserModel;
 
 public interface UserService {
@@ -14,4 +15,6 @@ public interface UserService {
 
 
     VerificationToken generateNewVerificationToken(String oldToken);
+
+    String updatePassword(UpdatePasswordModel updatePasswordModel);
 }
