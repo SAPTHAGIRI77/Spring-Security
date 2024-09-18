@@ -12,11 +12,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-    security:
-      oauth2:
-        client:
-          registration:
-            api-client-oidc
+
   security:
     oauth2:
       client:
@@ -26,17 +22,22 @@ spring:
             client-id: api-client
             client-secret: secret
             authorization-grant-type: authorization-code
-            redirect-uri: "http://127.0.0.1.8080/login/oauth2/code/{registrationId}"
+            redirect-uri: http://127.0.0.1:8081/login/oauth2/code/{registrationId}
             scope: openid
             client-name: api-client-oidc
+
           api-client-authorization-code:
             provider: spring
             client-id: api-client
             client-secret: secret
             authorization-grant-type: authorization-code
-            redirect-uri: "http://127.0.0.1.8080/login/oauth2/code/{registrationId}"
+            redirect-uri: http://127.0.0.1:8081/authorized
             scope: api.read
             client-name: api-client-authorization-code
-          provider:
-            spring:
-              issue-uri: http://auth-server:9000
+
+        provider:
+          spring:
+            authorization-uri: http://127.0.0.1:9000/oauth/authorize
+            token-uri: http://127.0.0.1:9000/oauth/token
+            user-info-uri: http://127.0.0.1:9000/userinfo
+            issue-uri: http://127.0.0.1:9000

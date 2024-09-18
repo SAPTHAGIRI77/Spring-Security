@@ -10,6 +10,6 @@ public class AuthorizationController {
 
     @GetMapping("/api/hello")
     public String sayHello(HttpServletRequest request){
-        return "Hello";
+        return "Welcome To HOME PAGE";
     }
 }
